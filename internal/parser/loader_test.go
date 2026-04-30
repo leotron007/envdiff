@@ -46,6 +46,14 @@ func TestLoadFiles_MultipleFiles(t *testing.T) {
 	}
 }
 
+func TestLoadFiles_ErrorOnMissing(t *testing.T) {
+	p1 := writeTempEnv(t, "A=1\n")
+	_, err := LoadFiles([]string{p1, "/nonexistent/.env"})
+	if err == nil {
+		t.Fatal("expected error when one file is missing")
+	}
+}
+
 func TestEnvFile_Get(t *testing.T) {
 	path := writeTempEnv(t, "MY_KEY=hello\n")
 	ef, _ := LoadFile(path)
