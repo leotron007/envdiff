@@ -83,6 +83,23 @@ func (a *Annotator) Annotate(entries []differ.DiffEntry) {
 	}
 }
 
+// Summary returns a human-readable summary of the diff entries,
+// reporting the count of added, removed, and changed keys.
+func Summary(entries []differ.DiffEntry) string {
+	var added, removed, changed int
+	for _, e := range entries {
+		switch e.Type {
+		case differ.Added:
+			added++
+		case differ.Removed:
+			removed++
+		case differ.Changed:
+			changed++
+		}
+	}
+	return fmt.Sprintf("envdiff: %d added, %d removed, %d changed", added, removed, changed)
+}
+
 func formatMessage(e differ.DiffEntry) string {
 	switch e.Type {
 	case differ.Added:
