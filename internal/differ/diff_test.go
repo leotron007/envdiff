@@ -55,6 +55,19 @@ func TestDiff_Same(t *testing.T) {
 	}
 }
 
+func TestDiff_Empty(t *testing.T) {
+	base := map[string]string{}
+	other := map[string]string{}
+
+	result := differ.Diff(base, other)
+	if result.HasChanges() {
+		t.Error("expected no changes for two empty maps")
+	}
+	if len(result.Entries) != 0 {
+		t.Errorf("expected no entries, got %d", len(result.Entries))
+	}
+}
+
 func TestDiff_StableOrder(t *testing.T) {
 	base := map[string]string{"Z": "1", "A": "2", "M": "3"}
 	other := map[string]string{"Z": "1", "A": "2", "M": "3"}
